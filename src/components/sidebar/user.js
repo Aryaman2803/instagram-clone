@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 
-const User = ({ username, fullname }) => {
+export default function User({ username, fullname }) {
   return !username || !fullname ? (
     <Skeleton count={1} height={61} />
   ) : (
@@ -23,10 +23,9 @@ const User = ({ username, fullname }) => {
       </div>
     </Link>
   );
-};
-export default User;
+}
 
 User.propTypes = {
-  username: PropTypes.string.isRequired,
-  fullname: PropTypes.string.isRequired,
+  username: PropTypes.string,
+  fullname: PropTypes.string,
 };

@@ -6,7 +6,6 @@ import Action from "./actions";
 import Footer from "./footer";
 import Comments from "./comments";
 export default function Post({ content }) {
-  console.log(content);
   const commentInput = useRef(null);
   const handleFocus = () => commentInput.current.focus();
 

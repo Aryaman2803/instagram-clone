@@ -17,7 +17,7 @@ const Header = () => {
               <Link to={ROUTES.DASHBOARD}>
                 {" "}
                 <img
-                  src="images/logo.png"
+                  src="/images/logo.png"
                   alt="instagram"
                   className="mt-2 w-6/12"
                 ></img>

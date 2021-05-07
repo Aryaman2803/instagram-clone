@@ -8,8 +8,20 @@ export async function doesUserNameExists(username) {
     .where("username", "==", username)
     .get();
 
-  console.log("result", result);
   return result.docs.map((user) => user.data().length > 0);
+}
+
+export async function getUserByUsername(username) {
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("username", "==", username)
+    .get();
+
+  return result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
 }
 
 //* Get user from the firestore where user id  === userid (passed from the auth)
@@ -102,4 +114,21 @@ export async function getPhotos(userId, following) {
     })
   );
   return photosWithUserDetails;
+}
+
+//Getting all photos of the user profile by username
+export async function getUserPhotosByUsername(username) {
+  const [user] = await getUserByUsername(username);
+  const result = await firebase
+    .firestore()
+    .collection("photos")
+    .where("userId", "==", user.userId)
+    .get();
+
+  const photos = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
+
+  return photos;
 }

@@ -7,7 +7,7 @@ const Header = () => {
   //* When user sign outs we need to make sure the auth Listener listens
   const { firebase } = useContext(FirebaseContext);
   const { user } = useContext(Usercontext);
-  // console.log("user", user);
+  // console.log("user", user.displayName);
   return (
     <header className="h-16 bg-white border-b border-gray-primary mb-8">
       <div className="container mx-auto max-w-screen-lg h-full">

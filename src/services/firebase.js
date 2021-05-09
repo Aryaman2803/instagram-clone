@@ -132,3 +132,60 @@ export async function getUserPhotosByUsername(username) {
 
   return photos;
 }
+
+export async function isUserFollowingProfile(loggedInUsername, profileUserId) {
+  const result = await firebase
+    .firestore()
+    .collection("users")
+    .where("username", "==", loggedInUsername)
+    .where("following", "array-contains", profileUserId)
+    .get();
+
+  // i knew i was getting array back from .map, so just to get value immediately
+  const [response = {}] = result.docs.map((item) => ({
+    ...item.data(),
+    docId: item.id,
+  }));
+
+  return response.userId;
+}
+
+//* Updating the follow/ unfollow toggle
+
+// export async function toggleFollow(
+//   isFollowingProfile,
+//   activeUserDocId,
+//   profileDocId,
+//   profileUserId,
+//   followingUserId
+// ) {
+//   await updateLoggedInUserFollowing(
+//     activeUserDocId, //* Active logged in user DocId (me)
+//     profileUserId, //* Active user's profile UserId
+//     isFollowingProfile //* Is the user following this profile? : Am i following the Raphael's profile
+//   );
+//   await updateFollowedUserFollowers(
+//     profileDocId, //* Active logged in user DocId (me)
+//     followingUserId, //* The user I request to follow (raphael)
+//     isFollowingProfile //* Is the user following this profile? : Am i following the Raphael's profile
+//   );
+// }
+
+
+export async function toggleFollow(
+  isFollowingProfile,
+  activeUserDocId,
+  profileDocId,
+  profileUserId,
+  followingUserId
+) {
+  // 1st param: karl's doc id
+  // 2nd param: raphael's user id
+  // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
+  await updateLoggedInUserFollowing(activeUserDocId, profileUserId, isFollowingProfile);
+
+  // 1st param: karl's user id
+  // 2nd param: raphael's doc id
+  // 3rd param: is the user following this profile? e.g. does karl follow raphael? (true/false)
+  await updateFollowedUserFollowers(profileDocId, followingUserId, isFollowingProfile);
+}

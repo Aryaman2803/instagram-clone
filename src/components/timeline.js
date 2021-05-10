@@ -10,7 +10,7 @@ import Post from "../components/posts";
 const Timeline = () => {
   const { photos } = usePhotos();
   return (
-    <div className="container col-span-2 ml-3   w-10/12">
+    <div className=" col-span-3 lg:col-span-2">
       {!photos ? (
         <>
           <Skeleton count={4} width={640} height={500} className="mb-5" />

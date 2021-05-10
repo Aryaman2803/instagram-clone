@@ -9,7 +9,7 @@ const Header = () => {
   const { user } = useContext(Usercontext);
   // console.log("user", user.displayName);
   return (
-    <header className="h-16 bg-white border-b border-gray-primary mb-8">
+    <header className="h-16 bg-white border-b border-gray-primary mb-8 px-4 lg:px-0">
       <div className="container mx-auto max-w-screen-lg h-full">
         <div className="flex justify-between h-full ml-2">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
@@ -29,7 +29,7 @@ const Header = () => {
               <>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
-                    className="w-8 mr-6 text-black-light cursor-pointer"
+                    className="w-8 mr-0 lg:mr-6 text-black-light cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -56,7 +56,7 @@ const Header = () => {
                   }}
                 >
                   <svg
-                    className="w-8 mr-6 text-black-light cursor-pointer"
+                    className="w-8 ml-3 lg:mr-6 text-black-light cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -70,7 +70,7 @@ const Header = () => {
                     />
                   </svg>
                 </button>
-                <div className="flex flex-items-center cursor-pointer">
+                <div className="hidden lg:flex flex-items-center cursor-pointer">
                   <Link to={`/p/${user.displayName}`}>
                     <img
                       className="rounded-full h-8 w-8 flex"

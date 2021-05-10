@@ -34,12 +34,13 @@ export default function App() {
             >
               <Login />
             </IsUserLoggedIn>
+
             <IsUserLoggedIn
               user={user}
               loggedInPath={ROUTES.DASHBOARD}
               path={ROUTES.SIGN_UP}
             >
-              <Login />
+              <SignUp />
             </IsUserLoggedIn>
             <Route path={ROUTES.PROFILE} component={Profile} />
             <ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>

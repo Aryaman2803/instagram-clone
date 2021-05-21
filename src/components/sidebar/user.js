@@ -12,7 +12,7 @@ export default function User({ username, fullname }) {
     >
       <div className="flex items-center justify-between col-span-1">
         <img
-        alt="profile picture"
+          alt="profile picture"
           className="rounded-full w-16 flex mr-3"
           src={`images/avatars/${username}.jpg`}
         />

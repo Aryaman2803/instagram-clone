@@ -21,6 +21,7 @@ export default function Profile() {
     }
     checkUserByUsername();
   }, [username, history, user]);
+
   return user?.username ? (
     <div className="bg-gray-background">
       <Header />

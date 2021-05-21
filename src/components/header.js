@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import Usercontext from "../context/user";
 import * as ROUTES from "../constants/routes";
@@ -78,6 +78,7 @@ const Header = () => {
                     <img
                       className="rounded-full h-8 w-8 flex"
                       src={`/images/avatars/${user.displayName}.jpg`}
+                      alt={`${user.displayName} profile picture`}
                     />
                   </Link>
                 </div>

@@ -4,7 +4,6 @@ import { getUserByUsername } from "../services/firebase";
 import * as ROUTES from "../constants/routes";
 import Header from "../components/header";
 import UserProfile from "../components/profile";
-import Photos from "../components/profile/photos";
 
 export default function Profile() {
   const { username } = useParams();
@@ -21,7 +20,7 @@ export default function Profile() {
       }
     }
     checkUserByUsername();
-  }, [username, history]);
+  }, [username, history, user]);
   return user?.username ? (
     <div className="bg-gray-background">
       <Header />

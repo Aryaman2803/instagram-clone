@@ -25,7 +25,7 @@ export default function IsUserLoggedIn({
       }}
     />
   );
-  return null;
+// return null;
 }
 
 IsUserLoggedIn.propTypes = {

@@ -1,7 +1,6 @@
 import Firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import FirebaseContext from "../context/firebase";
 //* Here I want to Import the seed file
 // import { seedDatabase } from "../seed";
 

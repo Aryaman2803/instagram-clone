@@ -29,7 +29,7 @@ export default function UserProfile({ user }) {
       });
     }
     getProfileInformationAndPhotos();
-  }, [user.username]);
+  }, [user,user.username]);
   return (
     <>
       <Header

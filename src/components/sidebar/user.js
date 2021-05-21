@@ -1,3 +1,4 @@
+
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
@@ -12,7 +13,7 @@ export default function User({ username, fullname }) {
     >
       <div className="flex items-center justify-between col-span-1">
         <img
-          alt="profile picture"
+        alt="display"
           className="rounded-full w-16 flex mr-3"
           src={`images/avatars/${username}.jpg`}
         />

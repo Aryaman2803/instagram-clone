@@ -25,7 +25,7 @@ export default function UserProfile({ user }) {
       dispatch({
         profile: user,
         photosCollection: photos,
-        followerCount: user.followers.length,
+        followerCount: user.followers.length ,
       });
     }
     getProfileInformationAndPhotos();

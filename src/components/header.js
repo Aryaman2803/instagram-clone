@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import Usercontext from "../context/user";
 import * as ROUTES from "../constants/routes";
@@ -7,6 +7,7 @@ const Header = () => {
   //* When user sign outs we need to make sure the auth Listener listens
   const { firebase } = useContext(FirebaseContext);
   const { user } = useContext(Usercontext);
+  const history = useHistory();
   // console.log("user", user.displayName);
   return (
     <header className="h-16 bg-white border-b border-gray-primary mb-8 px-4 lg:px-0">
@@ -48,10 +49,12 @@ const Header = () => {
                   title="Sign Out"
                   onClick={() => {
                     firebase.auth().signOut();
+                    history.push(ROUTES.LOGIN);
                   }}
                   onKeyDown={(event) => {
                     if (event.key === "Enter") {
                       firebase.auth().signOut();
+                      history.push(ROUTES.LOGIN);
                     }
                   }}
                 >

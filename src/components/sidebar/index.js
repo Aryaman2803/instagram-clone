@@ -9,6 +9,7 @@ const Sidebar = () => {
   const {
     user: { fullname, username, userId, following, docId },
   } = useUser();
+  // console.log(fullname);
   return (
     <div className="hidden lg:block p-4">
       <User fullname={fullname} username={username} />

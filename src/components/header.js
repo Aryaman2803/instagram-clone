@@ -1,36 +1,39 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
-import Usercontext from "../context/user";
+import UserContext from "../context/user";
 import * as ROUTES from "../constants/routes";
-const Header = () => {
-  //* When user sign outs we need to make sure the auth Listener listens
+import useUser from "../hooks/use-user";
+import { DEFAULT_IMAGE_PATH } from '../constants/paths';
+
+export default function Header() {
+  const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser?.uid);
   const { firebase } = useContext(FirebaseContext);
-  const { user } = useContext(Usercontext);
   const history = useHistory();
-  // console.log("user", user.displayName);
+
   return (
-    <header className="h-16 bg-white border-b border-gray-primary mb-8 px-4 lg:px-0">
+    <header className="h-16 bg-white border-b border-gray-primary mb-8">
       <div className="container mx-auto max-w-screen-lg h-full">
-        <div className="flex justify-between h-full ml-2">
+        <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <h1 className="flex justify-center w-full">
-              <Link to={ROUTES.DASHBOARD}>
-                {" "}
+              <Link to={ROUTES.DASHBOARD} aria-label="Instagram logo">
                 <img
                   src="/images/logo.png"
-                  alt="instagram"
+                  alt="Instagram"
                   className="mt-2 w-6/12"
-                ></img>
+                />
               </Link>
             </h1>
           </div>
           <div className="text-gray-700 text-center flex items-center align-items">
-            {user ? (
+            {loggedInUser ? (
               <>
                 <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
                   <svg
-                    className="w-8 mr-0 lg:mr-6 text-black-light cursor-pointer"
+                    className="w-8 mr-6 text-black-light cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -44,6 +47,7 @@ const Header = () => {
                     />
                   </svg>
                 </Link>
+
                 <button
                   type="button"
                   title="Sign Out"
@@ -59,7 +63,7 @@ const Header = () => {
                   }}
                 >
                   <svg
-                    className="w-8 ml-3 lg:mr-6 text-black-light cursor-pointer"
+                    className="w-8 mr-6 text-black-light cursor-pointer"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -73,22 +77,27 @@ const Header = () => {
                     />
                   </svg>
                 </button>
-                <div className="hidden lg:flex flex-items-center cursor-pointer">
-                  <Link to={`/p/${user.displayName}`}>
-                    <img
-                      className="rounded-full h-8 w-8 flex"
-                      src={`/images/avatars/${user.displayName}.jpg`}
-                      alt={`${user.displayName}`}
-                    />
-                  </Link>
-                </div>
+                {user && (
+                  <div className="flex items-center cursor-pointer">
+                    <Link to={`/p/${user?.username}`}>
+                      <img
+                        className="rounded-full h-8 w-8 flex"
+                        src={`/images/avatars/${user?.username}.jpg`}
+                        alt={`${user?.username} profile`}
+                        onError={(e) => {
+                          e.target.src = DEFAULT_IMAGE_PATH;
+                        }}
+                      />
+                    </Link>
+                  </div>
+                )}
               </>
             ) : (
               <>
                 <Link to={ROUTES.LOGIN}>
                   <button
                     type="button"
-                    className="bg-blue-medium font-bold txt-sm rounded text-white w-20 h-8"
+                    className="bg-blue-medium font-bold text-sm rounded text-white w-20 h-8"
                   >
                     Log In
                   </button>
@@ -108,5 +117,4 @@ const Header = () => {
       </div>
     </header>
   );
-};
-export default Header;
+}

@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 import UserContext from "./context/user";
 import useAuthListener from "./hooks/use-auth-listener";
-
-import IsUserLoggedIn from "./helpers/is-user-loggedIn";
+import ReactLoader from "./components/loader";
 import ProtectedRoute from "./helpers/protected-routes";
 
 //Lazy allows to split our huge bundle into chunks
@@ -25,32 +24,15 @@ export default function App() {
     //* Injecting UserContext in FirebaseContext ->(index.js)
     <UserContext.Provider value={{ user }}>
       <Router>
-        <Suspense fallback={<p>Loading...</p>}>
+        <Suspense fallback={<ReactLoader />}>
           <Switch>
-            <IsUserLoggedIn
-              user={user}
-              loggedInPath={ROUTES.DASHBOARD}
-              path={ROUTES.LOGIN}
-            >
-              <Login />
-            </IsUserLoggedIn>
-
-            <IsUserLoggedIn
-              user={user}
-              loggedInPath={ROUTES.DASHBOARD}
-              path={ROUTES.SIGN_UP}
-            >
-              <SignUp />
-            </IsUserLoggedIn>
-
-            <ProtectedRoute user={user} path={ROUTES.PROFILE}>
-              <Profile/>
-            </ProtectedRoute>
-             {/* <Route path={ROUTES.PROFILE} component={Profile} /> */}
+            <Route path={ROUTES.LOGIN} component={Login} />
+            <Route path={ROUTES.SIGN_UP} component={SignUp} />
+            <Route path={ROUTES.PROFILE} component={Profile} />
             <ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>
               <Dashboard />
             </ProtectedRoute>
-            <Route component={NotFound}></Route>
+            <Route component={NotFound} />
           </Switch>
         </Suspense>
       </Router>

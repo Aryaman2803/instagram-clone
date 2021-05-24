@@ -38,14 +38,18 @@ export default function Signup() {
         await createdUserResult.user.updateProfile({ displayName: username });
 
         //* firebase user collection ( create a document)
-        await firebase.firestore().collection("users").add({
-          userId: createdUserResult.user.uid,
-          username: username.toLowerCase(),
-          fullname,
-          emailAddress: emailAddress.toLowerCase(),
-          following: [],
-          dateCreated: Date.now(),
-        });
+        await firebase
+          .firestore()
+          .collection("users")
+          .add({
+            userId: createdUserResult.user.uid,
+            username: username.toLowerCase(),
+            fullname,
+            emailAddress: emailAddress.toLowerCase(),
+            following: ["2"],
+            followers: [],
+            dateCreated: Date.now(),
+          });
         history.push(ROUTES.DASHBOARD);
       } catch (error) {
         setFullname("");
@@ -54,6 +58,7 @@ export default function Signup() {
         setError(error.message);
       }
     } else {
+      setUsername('');
       setError("That username is already taken, please try again.");
     }
   };
@@ -65,7 +70,7 @@ export default function Signup() {
     <div className="container flex mx-auto max-w-screen-md items-center h-screen px-4 lg:px-0">
       <div className="hidden lg:flex w-full lg:w-3/5">
         <img
-        className='object-scale-down'
+          className="object-scale-down"
           src="/images/iphone-with-profile.jpg"
           alt="Iphone with Instagram"
         />
@@ -94,7 +99,7 @@ export default function Signup() {
             <input
               aria-label="Enter your full name"
               type="text"
-              placeholder="Full Name"
+              placeholder="Full name"
               className="text-sm text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
               onChange={({ target }) => setFullname(target.value)}
               value={fullname}

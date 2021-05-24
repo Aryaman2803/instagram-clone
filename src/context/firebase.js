@@ -11,5 +11,4 @@ import { createContext } from "react";
 // consumer-------component 6 ------- (firebase init here)
 
 const FirebaseContext = createContext(null);
-
 export default FirebaseContext;

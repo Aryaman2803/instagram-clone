@@ -1,24 +1,24 @@
-import { useState, useEffect, useContext } from "react";
-import UserContext from "../context/user";
+import { useState, useEffect } from "react";
 import { getUserByUserId } from "../services/firebase";
 //* Best way to query user in firestore is by userId from user Authentication
 
 //hook to get user data from firestore
-export default function useUser() {
+export default function useUser(userId) {
   const [activeUser, setActiveUser] = useState({});
-  const { user } = useContext(UserContext);
 
   useEffect(() => {
-    async function getUserObjectByUserId() {
+    async function getUserObjByUserId(userId) {
       //* We need a function that we can call (firebase service ) that gets the user data based on the id
       //* We make a function in services->firebse.js getUserObjectByUserId() which returns user data
-      const [response] = await getUserByUserId(user.uid);
 
-      setActiveUser(response);
+      const [user] = await getUserByUserId(userId);
+      setActiveUser(user || {});
     }
-    if (user?.uid) {
-      getUserObjectByUserId();
+
+    if (userId) {
+      getUserObjByUserId(userId);
     }
-  }, [user]);
-  return { user: activeUser };
+  }, [userId]);
+
+  return { user: activeUser, setActiveUser };
 }

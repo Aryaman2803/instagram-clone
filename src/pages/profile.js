@@ -11,16 +11,17 @@ export default function Profile() {
   const history = useHistory();
 
   useEffect(() => {
-    async function checkUserByUsername() {
-      const user = await getUserByUsername(username);
-      if (user.length > 0) {
-        setUser(user[0]);
+    async function checkUserExists() {
+      const [user] = await getUserByUsername(username);
+      if (user?.userId) {
+        setUser(user);
       } else {
         history.push(ROUTES.NOT_FOUND);
       }
     }
-    checkUserByUsername();
-  }, [username, history, user]);
+
+    checkUserExists();
+  }, [username, history]);
 
   return user?.username ? (
     <div className="bg-gray-background">

@@ -116,22 +116,35 @@ export async function getPhotos(userId, following) {
   return photosWithUserDetails;
 }
 
-//Getting all photos of the user profile by username
-export async function getUserPhotosByUsername(username) {
-  const [user] = await getUserByUsername(username);
+export async function getUserPhotosByUserId(userId) {
   const result = await firebase
     .firestore()
-    .collection("photos")
-    .where("userId", "==", user.userId)
+    .collection('photos')
+    .where('userId', '==', userId)
     .get();
 
-  const photos = result.docs.map((item) => ({
-    ...item.data(),
-    docId: item.id,
+  const photos = result.docs.map((photo) => ({
+    ...photo.data(),
+    docId: photo.id
   }));
-
   return photos;
 }
+//Getting all photos of the user profile by username
+// export async function getUserPhotosByUsername(username) {
+//   const [user] = await getUserByUsername(username);
+//   const result = await firebase
+//     .firestore()
+//     .collection("photos")
+//     .where("userId", "==", user.userId)
+//     .get();
+
+//   const photos = result.docs.map((item) => ({
+//     ...item.data(),
+//     docId: item.id,
+//   }));
+
+//   return photos;
+// }
 
 export async function isUserFollowingProfile(loggedInUsername, profileUserId) {
   const result = await firebase

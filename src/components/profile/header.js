@@ -1,47 +1,51 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import Skeleton from "react-loading-skeleton";
 import useUser from "../../hooks/use-user";
 import { isUserFollowingProfile, toggleFollow } from "../../services/firebase";
 import { useParams } from "react-router-dom";
+import UserContext from "../../context/user";
+import {DEFAULT_IMAGE_PATH} from "../../constants/paths";
 export default function Header({
-  photosCount,
   //* It contains the profile we are visiting. It can be ours  or other profile
+  photosCount,
+  followerCount,
+  setFollowerCount,
   profile: {
     docId: profileDocId,
     userId: profileUserId,
     fullName,
-    followers = [],
-    following = [],
+    followers,
+    following,
     username: profileUsername, //logged in user
   },
-  followerCount,
-  setFollowerCount,
 }) {
-  const [isFollowing, setisFollowing] = useState(false);
-  const { user } = useUser();
-  const activeBtnFollow = user.username && user.username !== profileUsername;
+  const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser?.uid);
+  const [isFollowingProfile, setIsFollowingProfile] = useState(false);
+  const activeBtnFollow = user?.username && user?.username !== profileUsername;
 
   const { username: checkIfLoggedInUserByUrl } = useParams();
 
   const handleToggleFollow = async () => {
     //True or falsy
-    setisFollowing((isFollowing) => !isFollowing);
+    setIsFollowingProfile((isFollowingProfile) => !isFollowingProfile);
     //Now updating firestore with dispatch which is passed from index.js
     //by passing an object
     setFollowerCount({
-      followerCount: isFollowing ? followerCount - 1 : followerCount + 1,
+      followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1,
     });
 
     //* updating in firestore
     await toggleFollow(
-      isFollowing,
+      isFollowingProfile,
       user.docId,
       profileDocId,
       profileUserId,
       user.userId
     );
   };
+
   useEffect(() => {
     const isLoggedInUserFollowingProfile = async () => {
       //check if the logged in user is following the user he is visiting
@@ -51,21 +55,28 @@ export default function Header({
       );
       //* We are initially returning userId if they were following the profile. But we want in truthy / falsy
       //* So we use !! to turn that value in truthy or falsy value
-      setisFollowing(!!isFollowing);
+      setIsFollowingProfile(!!isFollowing);
     };
-    if (user.username && profileUserId) {
+
+    if (user?.username && profileUserId) {
       isLoggedInUserFollowingProfile();
     }
-  }, [user.username, profileUserId]);
+  }, [user?.username, profileUserId]);
+
   return (
     <div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
       <div className="container flex justify-center items-center">
-        {user.username && (
+        {profileUsername ? (
           <img
             className="rounded-full h-16 w-16 md:h-20 lg:h-40 md:w-20 lg:w-40 flex"
             alt={`${user.username}`}
             src={`/images/avatars/${profileUsername}.jpg`}
+            onError={(e)=>{
+              e.target.src = DEFAULT_IMAGE_PATH;
+            }}
           />
+        ) : (
+          <Skeleton circle height={150} width={150} count={1} />
         )}
       </div>
       <div className="flex items-center justify-center flex-col col-span-2">
@@ -82,7 +93,7 @@ export default function Header({
                 }
               }}
             >
-              {isFollowing ? "Unfollow" : "Follow"}
+              {isFollowingProfile ? "Unfollow" : "Follow"}
             </button>
           )}
         </div>

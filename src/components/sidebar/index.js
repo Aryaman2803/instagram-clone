@@ -1,13 +1,14 @@
-import useUser from "../../hooks/use-user";
+
 import User from "./user";
 import Suggestions from "./suggestions";
-import React from "react";
+import  { useContext } from "react";
+import LoggedInUserContext from "../../context/logged-in-user";
 //* We are displaying of people user is not following suggestions in sidebar
 
 const Sidebar = () => {
-  const {
-    user: { fullname, username, userId, following, docId },
-  } = useUser();
+  const { user: { docId = '', userId, following, username, fullname } = {} } = useContext(
+    LoggedInUserContext
+  );
   // console.log(fullname);
   return (
     <div className="hidden lg:block p-4">

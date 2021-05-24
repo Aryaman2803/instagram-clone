@@ -1,8 +1,7 @@
-
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
-
+import {DEFAULT_IMAGE_PATH} from "../../constants/paths";
 export default function User({ username, fullname }) {
   return !username || !fullname ? (
     <Skeleton count={1} height={61} />
@@ -13,9 +12,12 @@ export default function User({ username, fullname }) {
     >
       <div className="flex items-center justify-between col-span-1">
         <img
-        alt="display"
           className="rounded-full w-16 flex mr-3"
-          src={`images/avatars/${username}.jpg`}
+          src={`/images/avatars/${username}.jpg`}
+          alt=""
+          onError={(e) => {
+            e.target.src = DEFAULT_IMAGE_PATH;
+          }}
         />
       </div>
       <div className="col-span-3">

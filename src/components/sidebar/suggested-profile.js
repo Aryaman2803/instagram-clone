@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { DEFAULT_IMAGE_PATH } from "../../constants/paths";
+
 import {
   updateLoggedInUserFollowing,
   updateFollowedUserFollowers,
@@ -31,7 +33,10 @@ export default function SuggestedProfile({
         <img
           className="rounded-full w-8 flex mr-3"
           src={`/images/avatars/${username}.jpg`}
-          alt=""
+          alt="PROFIELE"
+          onError={(e) => {
+            e.target.src = DEFAULT_IMAGE_PATH;
+          }}
         />
         <Link to={`/p/${username}`}>
           <p className="font-bold tex-sm">{username}</p>

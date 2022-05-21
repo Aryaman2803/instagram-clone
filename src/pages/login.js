@@ -72,6 +72,10 @@ export default function Login() {
           </form>
         </div>
         <div className="flex justify-center items=center flex-col w-full bg-white p-4 border rounded border-gray-primary">
+          <p>Demo Email: testuser@gmail.com </p>
+          <p> Password: testuser </p>
+        </div>
+        <div className="flex justify-center items=center flex-col w-full bg-white p-4 border rounded border-gray-primary">
           <p className="text-sm">
             Don't have an account?
             <Link to={ROUTES.SIGN_UP} className="font-bold text-blue-medium">
